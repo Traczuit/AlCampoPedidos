@@ -153,6 +153,9 @@
 
     function createDiv() {
       const fiambreArray = textToArray("fiambreria");
+      const verduArray = textToArray("verduleria");
+      const carneArray = textToArray("carniceria");
+      const almacArray = textToArray("almacen");
 
       const formaDePago = document
         .getElementById("forma-de-pago")
@@ -166,9 +169,9 @@
         fechaEntrega: document.getElementById("fecha").value,
         direccion: document.getElementById("direccion").value,
         fiambreria: fiambreArray,
-        almacen: document.getElementById("almacen").value,
-        verduleria: document.getElementById("verduleria").value,
-        carniceria: document.getElementById("carniceria").value,
+        almacen: almacArray,
+        verduleria: verduArray,
+        carniceria: carneArray,
         ctaCte:
           formaDePago == "transferencia" || formaDePago == "efectivo"
             ? "DELIVERY"
@@ -237,12 +240,18 @@
       var a = window.open("", "", "height=900, width=800");
       a.document.write("<html>");
       a.document.write(
-        `<body > <p>PEDIDO<br><br>NRO: ${thingy.nro}<br>CLIENTE: ${thingy.cliente}<br>TELEFONO: ${thingy.telefono}<br>FECHA: ${thingy.fechaEntrega}  <br>DIRECCION: ${thingy.direccion}<br> <br>Fiambreria:<br><div id='listaFiambreria'></div>`
+        `<body > <p>PEDIDO<br><br>NRO: ${thingy.nro}<br>CLIENTE: ${thingy.cliente}<br>TELEFONO: ${thingy.telefono}<br>FECHA: ${thingy.fechaEntrega}  <br>DIRECCION: ${thingy.direccion}<br> <br>Fiambreria:<br><div id='listaFiambreria'></div><br>Almacen:<br><div id='listaAlmacen'></div><br>Verduleria:<br><div id='listaVerduleria'></div><br>Carniceria:<br><div id='listaCarniceria'></div>`
       );
       a.document.write("</body></html>");
       a.document.close();
       let fiambreriaList = a.document.querySelector("#listaFiambreria");
       uLister(fiambreriaList, thingy.fiambreria);
+      let almacenList = a.document.querySelector("#listaAlmacen");
+      uLister(almacenList, thingy.almacen);
+      let verduList = a.document.querySelector("#listaVerduleria");
+      uLister(verduList, thingy.verduleria);
+      let carneList = a.document.querySelector("#listaCarniceria");
+      uLister(carneList, thingy.carniceria);
       a.print();
     }
   </script>
