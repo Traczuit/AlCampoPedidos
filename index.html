@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+  <title>Online HTML Editor</title>
+
+  <head> </head>
+  <style>
+    .item {
+      display: flex;
+      width: 400px;
+      max-height: 30px;
+      padding: 5px 0 0 0;
+      justify-content: space-between;
+      align-items: space-between;
+    }
+
+    .order {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      width: 100%;
+      height: 40px;
+      padding: "5px";
+      background-color: #f0f0f0;
+    }
+
+    .orderItem {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      width: 100%;
+      height: 25px;
+      padding: 5px;
+      border: 1px solid #000;
+      background-color: #fff;
+    }
+
+    #table {
+      margin: 10px 0 0 0;
+      max-width: 1024px;
+    }
+
+    #table th {
+      width: 10%;
+      border: 1px solid #000;
+      font-family: sans-serif;
+      color: #333;
+      background-color: #fe7f5c;
+      padding: 0;
+      margin: 0;
+    }
+
+    td {
+      border: 1px solid #000;
+    }
+  </style>
+
+  <body>
+    <div id="root">
+      <div id="textContainer">
+        <ul class="list">
+          <li class="item">
+            <p>NRO PEDIDO:</p>
+            <input type="textbox" id="nro" />
+          </li>
+          <li class="item">
+            <p>CLIENTE:</p>
+            <input type="textbox" id="cliente" />
+          </li>
+          <li class="item">
+            <p>TELEFONO:</p>
+            <input type="textbox" id="telefono" />
+          </li>
+          <li class="item">
+            <p>FECHA:</p>
+            <input type="date" id="fecha" />
+          </li>
+          <li class="item">
+            <p>DIRECCION:</p>
+            <input type="textbox" id="direccion" />
+          </li>
+          <li class="item">
+            <p>Fiambreria:</p>
+            <textarea id="fiambreria"></textarea>
+          </li>
+          <li class="item">
+            <p>Almacen:</p>
+            <textarea id="almacen"></textarea>
+          </li>
+          <li class="item">
+            <p>Verduleria:</p>
+            <textarea id="verduleria"></textarea>
+          </li>
+          <li class="item">
+            <p>Carniceria:</p>
+            <textarea id="carniceria"></textarea>
+          </li>
+          <li class="item">
+            <p>FORMA DE PAGO:</p>
+            <input type="textbox" id="forma-de-pago" />
+          </li>
+        </ul>
+        <button id="create-div">Add order</button>
+
+        <table id="table">
+          <th>Fecha Pedido</th>
+          <th>Fecha de entrega</th>
+          <th>Estado de pedido</th>
+          <th>Cliente</th>
+          <th>Monto</th>
+          <th>Cuenta Corriente</th>
+          <th>Forma de pago</th>
+          <th>Status Pago</th>
+          <th>Tipo</th>
+          <th>Entrega</th>
+          <th>Acciones</th>
+        </table>
+      </div>
+    </div>
+  </body>
+  <script>
+    var orderId = 0;
+    var ordersList = [];
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = today.getMonth() + 1; // Months start at 0!
+    let dd = today.getDate();
+
+    if (dd < 10) dd = "0" + dd;
+    if (mm < 10) mm = "0" + mm;
+
+    const formattedToday = dd + "/" + mm + "/" + yyyy;
+
+    function textToArray(textareaId) {
+      const textarea = document.querySelector(`#${textareaId}`);
+      const content = textarea.value;
+      const array = content.split("\n").filter((line) => line.trim() !== "");
+      return array;
+    }
+
+    function uLister(targetParent, targetArr) {
+      const array = targetArr;
+
+      const ul = document.createElement("ul");
+      array.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+
+      targetParent.appendChild(ul);
+    }
+
+    function createDiv() {
+      const fiambreArray = textToArray("fiambreria");
+
+      const formaDePago = document
+        .getElementById("forma-de-pago")
+        .value.toLowerCase();
+      var newOrder = {
+        id: orderId,
+        nro: document.getElementById("nro").value,
+        cliente: document.getElementById("cliente").value,
+        telefono: document.getElementById("telefono").value,
+        fechaPedido: formattedToday,
+        fechaEntrega: document.getElementById("fecha").value,
+        direccion: document.getElementById("direccion").value,
+        fiambreria: fiambreArray,
+        almacen: document.getElementById("almacen").value,
+        verduleria: document.getElementById("verduleria").value,
+        carniceria: document.getElementById("carniceria").value,
+        ctaCte:
+          formaDePago == "transferencia" || formaDePago == "efectivo"
+            ? "DELIVERY"
+            : "CTA CTE CLIENTE",
+        formaDePago: formaDePago,
+        statusPago: "OK",
+        tipo: "FRESCOS",
+        entrega: "CADETE",
+        estadoPedido: "ABIERTO",
+      };
+      ordersList.push(newOrder);
+      const newOrderArr = [
+        newOrder.fechaPedido,
+        newOrder.fechaEntrega,
+        newOrder.estadoPedido,
+        newOrder.cliente,
+        "$0",
+        newOrder.ctaCte,
+        newOrder.formaDePago,
+        newOrder.statusPago,
+        newOrder.tipo,
+        newOrder.entrega,
+        "",
+      ];
+      console.log(newOrderArr);
+      let container = document.querySelector("#table");
+      container.insertRow();
+      for (let cell of newOrderArr) {
+        let newCell = container.rows[container.rows.length - 1].insertCell();
+        newCell.textContent = cell;
+        newCell.classList.add("table-cell");
+      }
+
+      let lastCell = container.lastChild.lastChild.lastChild;
+      let printBtn = document.createElement("button");
+      printBtn.setAttribute("id", `${newOrder.id}`);
+      printBtn.innerHTML = `print`;
+      printBtn.addEventListener("click", handleClick);
+      lastCell.appendChild(printBtn);
+
+      orderId += 1;
+
+      console.log(newOrder.fiambreria);
+    }
+
+    const createDivBtn = document.getElementById("create-div");
+    createDivBtn.addEventListener("click", createDiv);
+
+    function getObjectById(objectsArray, id) {
+      for (let i = 0; i < objectsArray.length; i++) {
+        if (objectsArray[i].id === id) {
+          return objectsArray[i];
+        }
+      }
+      return null;
+    }
+
+    function handleClick(event) {
+      const buttonId = event.target.id;
+      const objectId = parseInt(buttonId); // assuming the button's id is a number
+      const object = getObjectById(ordersList, objectId);
+      printThis(object);
+    }
+
+    function printThis(thingy) {
+      var a = window.open("", "", "height=900, width=800");
+      a.document.write("<html>");
+      a.document.write(
+        `<body > <p>PEDIDO<br><br>NRO: ${thingy.nro}<br>CLIENTE: ${thingy.cliente}<br>TELEFONO: ${thingy.telefono}<br>FECHA: ${thingy.fechaEntrega}  <br>DIRECCION: ${thingy.direccion}<br> <br>Fiambreria:<br><div id='listaFiambreria'></div>`
+      );
+      a.document.write("</body></html>");
+      a.document.close();
+      let fiambreriaList = a.document.querySelector("#listaFiambreria");
+      uLister(fiambreriaList, thingy.fiambreria);
+      a.print();
+    }
+  </script>
+</html>
