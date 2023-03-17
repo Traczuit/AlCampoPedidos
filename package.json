@@ -1,0 +1,23 @@
+{
+  "name": "alcampopedidos",
+  "version": "1.0.0",
+  "description": "Mini app para facilitar la carga de pedidos de delivery en AL CAMPO.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Traczuit/AlCampoPedidos.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Traczuit/AlCampoPedidos/issues"
+  },
+  "homepage": "https://github.com/Traczuit/AlCampoPedidos#readme",
+  "dependencies": {
+    "nodemon": "^2.0.21"
+  }
+}
