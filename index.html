@@ -111,7 +111,7 @@
             <input type="textbox" id="forma-de-pago" />
           </li>
         </ul>
-        <button id="create-div">Add order</button>
+        <button id="create-div">Add order and Print</button>
 
         <table id="table">
           <th>Fecha Pedido</th>
@@ -230,6 +230,7 @@
       cliente.value = "";
       telefono.value = "";
       direccion.value = "";
+      printThis(newOrder);
     }
 
     const createDivBtn = document.getElementById("create-div");
