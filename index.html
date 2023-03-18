@@ -12,13 +12,14 @@
       justify-content: space-between;
       align-items: space-between;
     }
-    
+
     .item p {
       width: 140px;
       margin: 0 10px 0 0;
     }
-    
-    .item input, .item textarea {
+
+    .item input,
+    .item textarea {
       width: 300px;
       margin: 0 0 0 10px;
     }
@@ -71,7 +72,7 @@
         <ul class="list">
           <li class="item">
             <p>NRO PEDIDO:</p>
-            <input type="textbox" id="nro" />
+            <input type="number" id="nro" />
           </li>
           <li class="item">
             <p>CLIENTE:</p>
@@ -167,23 +168,26 @@
       const carneArray = textToArray("carniceria");
       const almacArray = textToArray("almacen");
 
+      const cliente = document.getElementById("cliente");
+      const telefono = document.getElementById("telefono");
+      const direccion = document.getElementById("direccion");
       const formaDePago = document
         .getElementById("forma-de-pago")
-        .value.toLowerCase();
+        .value.toUpperCase();
       var newOrder = {
         id: orderId,
         nro: document.getElementById("nro").value,
-        cliente: document.getElementById("cliente").value,
-        telefono: document.getElementById("telefono").value,
+        cliente: cliente.value,
+        telefono: telefono.value,
         fechaPedido: formattedToday,
         fechaEntrega: document.getElementById("fecha").value,
-        direccion: document.getElementById("direccion").value,
+        direccion: direccion.value,
         fiambreria: fiambreArray,
         almacen: almacArray,
         verduleria: verduArray,
         carniceria: carneArray,
         ctaCte:
-          formaDePago == "transferencia" || formaDePago == "efectivo"
+          formaDePago == "TRANSFERENCIA" || formaDePago == "EFECTIVO"
             ? "DELIVERY"
             : "CTA CTE CLIENTE",
         formaDePago: formaDePago,
@@ -200,7 +204,7 @@
         newOrder.cliente,
         "$0",
         newOrder.ctaCte,
-        newOrder.formaDePago.toUpperCase(),
+        newOrder.formaDePago,
         newOrder.statusPago,
         newOrder.tipo,
         newOrder.entrega,
@@ -223,8 +227,9 @@
       lastCell.appendChild(printBtn);
 
       orderId += 1;
-
-      console.log(newOrder.fiambreria);
+      cliente.value = "";
+      telefono.value = "";
+      direccion.value = "";
     }
 
     const createDivBtn = document.getElementById("create-div");
