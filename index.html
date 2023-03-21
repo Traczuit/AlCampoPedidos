@@ -168,6 +168,7 @@
       const carneArray = textToArray("carniceria");
       const almacArray = textToArray("almacen");
 
+      const nro = document.getElementById("nro");
       const cliente = document.getElementById("cliente");
       const telefono = document.getElementById("telefono");
       const direccion = document.getElementById("direccion");
@@ -176,7 +177,7 @@
         .value.toUpperCase();
       var newOrder = {
         id: orderId,
-        nro: document.getElementById("nro").value,
+        nro: nro.value,
         cliente: cliente.value,
         telefono: telefono.value,
         fechaPedido: formattedToday,
@@ -233,6 +234,7 @@
       document.getElementById('almacen').value = '';
       document.getElementById('verduleria').value = '';
       document.getElementById('carniceria').value = '';
+      nro.value += 1;
       printThis(newOrder);
     }
 
