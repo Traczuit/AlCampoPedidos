@@ -169,7 +169,7 @@
       const almacArray = textToArray("almacen");
 
       const nro = document.getElementById("nro");
-      console.log(nro);
+      console.log(typeof.(nro.value));
       const cliente = document.getElementById("cliente");
       const telefono = document.getElementById("telefono");
       const direccion = document.getElementById("direccion");
@@ -235,7 +235,12 @@
       document.getElementById('almacen').value = '';
       document.getElementById('verduleria').value = '';
       document.getElementById('carniceria').value = '';
-      nro.value += 1;
+      if(typeof(nro.value) == string){
+        updatedValue = parseInt(nro.value, 10);
+        updatedValue +=1;
+        updatedValue.toString();
+        nro.value = updatedValue;
+      }
       printThis(newOrder);
     }
 
