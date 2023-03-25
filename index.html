@@ -2,69 +2,9 @@
 <html>
   <title>Al Campo: Carga de Pedidos</title>
 
-  <head> </head>
-  <style>
-    .item {
-      display: flex;
-      width: 460px;
-      max-height: 30px;
-      padding: 5px 0 0 0;
-      justify-content: space-between;
-      align-items: space-between;
-    }
-
-    .item p {
-      width: 140px;
-      margin: 0 10px 0 0;
-    }
-
-    .item input,
-    .item textarea {
-      width: 300px;
-      margin: 0 0 0 10px;
-    }
-
-    .order {
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      width: 100%;
-      height: 40px;
-      padding: "5px";
-      background-color: #f0f0f0;
-    }
-
-    .orderItem {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-sizing: border-box;
-      width: 100%;
-      height: 25px;
-      padding: 5px;
-      border: 1px solid #000;
-      background-color: #fff;
-    }
-
-    #table {
-      margin: 10px 0 0 0;
-      max-width: 1024px;
-    }
-
-    #table th {
-      width: 10%;
-      border: 1px solid #000;
-      font-family: sans-serif;
-      color: #333;
-      background-color: #fe7f5c;
-      padding: 0;
-      margin: 0;
-    }
-
-    td {
-      border: 1px solid #000;
-    }
-  </style>
+  <head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
   <body>
     <div id="root">
@@ -140,10 +80,10 @@
     if (dd < 10) dd = "0" + dd;
     if (mm < 10) mm = "0" + mm;
 
-    const formattedToday = dd + "/" + mm + "/" + yyyy;
+    const formattedToday = `${dd}/${mm}/${yyyy}`;
 
     function textToArray(textareaId) {
-      const textarea = document.querySelector(`#${textareaId}`);
+      const textarea = document.getElementById(`${textareaId}`);
       const content = textarea.value;
       const array = content.split("\n").filter((line) => line.trim() !== "");
       return array;
@@ -167,6 +107,13 @@
       const verduArray = textToArray("verduleria");
       const carneArray = textToArray("carniceria");
       const almacArray = textToArray("almacen");
+      const fecha = document.getElementById("fecha");
+      const ddMmYyyyFormatter = (dateToRearray) => {
+        const array = dateToRearray.value.split("-");
+        const formatedDate = `${array[2]}/${array[1]}/${array[0]}`;
+        return formatedDate;
+      };
+      
 
       const cliente = document.getElementById("cliente");
       const telefono = document.getElementById("telefono");
@@ -180,7 +127,7 @@
         cliente: cliente.value,
         telefono: telefono.value,
         fechaPedido: formattedToday,
-        fechaEntrega: document.getElementById("fecha").value,
+        fechaEntrega: ddMmYyyyFormatter(fecha),
         direccion: direccion.value,
         fiambreria: fiambreArray,
         almacen: almacArray,
