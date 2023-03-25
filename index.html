@@ -115,6 +115,8 @@
       };
       
 
+      const nro = document.getElementById("nro");
+      console.log(typeof(nro.value));
       const cliente = document.getElementById("cliente");
       const telefono = document.getElementById("telefono");
       const direccion = document.getElementById("direccion");
@@ -123,7 +125,7 @@
         .value.toUpperCase();
       var newOrder = {
         id: orderId,
-        nro: document.getElementById("nro").value,
+        nro: nro.value,
         cliente: cliente.value,
         telefono: telefono.value,
         fechaPedido: formattedToday,
@@ -157,7 +159,6 @@
         newOrder.entrega,
         "",
       ];
-      console.log(newOrderArr);
       let container = document.querySelector("#table");
       container.insertRow();
       for (let cell of newOrderArr) {
@@ -177,6 +178,16 @@
       cliente.value = "";
       telefono.value = "";
       direccion.value = "";
+      document.getElementById('fiambreria').value = '';
+      document.getElementById('almacen').value = '';
+      document.getElementById('verduleria').value = '';
+      document.getElementById('carniceria').value = '';
+      if(typeof(nro.value) == 'string'){
+        updatedValue = parseInt(nro.value, 10);
+        updatedValue +=1;
+        updatedValue.toString();
+        nro.value = updatedValue;
+      }
       printThis(newOrder);
     }
 
