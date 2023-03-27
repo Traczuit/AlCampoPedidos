@@ -7,6 +7,22 @@
   align-items: space-between;
 }
 
+#datetime-div{
+  display: flex;
+  width: 303px;
+  justify-content: space-between;
+}
+
+#fecha{
+  width: 48%;
+  margin: 0;
+}
+
+#timepicker{
+  width: 48%;
+  margin: 0;
+}
+
 .direccion-item {
   max-height: fit-content;
 }

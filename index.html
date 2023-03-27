@@ -24,7 +24,10 @@
           </li>
           <li class="item">
             <p>FECHA:</p>
-            <input type="date" id="fecha" />
+            <div id="datetime-div">
+              <input type="date" id="fecha" />
+              <input type="time" name="Hora" id="timepicker" />
+            </div>
           </li>
           <li class="item direccion-item">
             <p>DIRECCION:</p>
@@ -43,7 +46,6 @@
                   value="RETIRA POR RECTA"
                   class="checkbox"
                   onclick="uncheck(checkbox2)"
-                  
                 />
                 <input
                   type="checkbox"
@@ -108,6 +110,24 @@
     if (mm < 10) mm = "0" + mm;
 
     const formattedToday = `${dd}/${mm}/${yyyy}`;
+
+    var timepicker = document.getElementById("timepicker");
+    updateTimepicker(); // Update the time picker immediately
+    setInterval(updateTimepicker, 30000); // Check the time every minute
+
+    function updateTimepicker() {
+      var now = new Date();
+      var hourLater = new Date(now.getTime() + 60 * 60 * 1000);
+      var hourLaterHour = hourLater.getHours();
+      var hourLaterMinute = hourLater.getMinutes();
+      var hourLaterString =
+        (hourLaterHour < 10 ? "0" : "") +
+        hourLaterHour +
+        ":" +
+        (hourLaterMinute < 10 ? "0" : "") +
+        hourLaterMinute;
+      timepicker.value = hourLaterString;
+    }
 
     const checkbox1 = document.getElementById("checkbox1");
     const checkbox2 = document.getElementById("checkbox2");
@@ -174,6 +194,7 @@
         telefono: telefono.value,
         fechaPedido: formattedToday,
         fechaEntrega: ddMmYyyyFormatter(fecha),
+        horaEntrega: timepicker.value,
         direccion: direccionChecker(direccion),
         fiambreria: fiambreArray,
         almacen: almacArray,
@@ -226,6 +247,8 @@
       document.getElementById("almacen").value = "";
       document.getElementById("verduleria").value = "";
       document.getElementById("carniceria").value = "";
+      checkbox1.checked = false;
+      checkbox2.checked = false;
       if (typeof nro.value == "string") {
         updatedValue = parseInt(nro.value, 10);
         updatedValue += 1;
@@ -258,7 +281,7 @@
       var a = window.open("", "", "height=900, width=800");
       a.document.write("<html>");
       a.document.write(
-        `<body > <p>PEDIDO<br><br>NRO: ${thingy.nro}<br>CLIENTE: ${thingy.cliente}<br>TELEFONO: ${thingy.telefono}<br>FECHA: ${thingy.fechaEntrega}  <br>DIRECCION: ${thingy.direccion}<br> <br>Fiambreria:<br><div id='listaFiambreria'></div><br>Almacen:<br><div id='listaAlmacen'></div><br>Verduleria:<br><div id='listaVerduleria'></div><br>Carniceria:<br><div id='listaCarniceria'></div><br>FORMA DE PAGO: ${thingy.formaDePago}</p>`
+        `<body > <p>PEDIDO<br><br>NRO: ${thingy.nro}<br>CLIENTE: ${thingy.cliente}<br>TELEFONO: ${thingy.telefono}<br>FECHA: ${thingy.fechaEntrega}  <br>DIRECCION: ${thingy.direccion}   <strong>${thingy.horaEntrega}</strong><br> <br>Fiambreria:<br><div id='listaFiambreria'></div><br>Almacen:<br><div id='listaAlmacen'></div><br>Verduleria:<br><div id='listaVerduleria'></div><br>Carniceria:<br><div id='listaCarniceria'></div><br>FORMA DE PAGO: ${thingy.formaDePago}</p>`
       );
       a.document.write("</body></html>");
       a.document.close();
