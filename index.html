@@ -77,25 +77,33 @@
           </li>
           <li class="item">
             <p>FORMA DE PAGO:</p>
-            <input type="textbox" id="forma-de-pago" />
+            <div id="forma-de-pago-div">
+              <select name="forma-de-pago" id="forma-de-pago">
+                <option value="TRANSFERENCIA">TRANSFERENCIA</option>
+                <option value="EFECTIVO">EFECTIVO</option>
+                <option value="CTA CTE CLIENTE">CTA CTE CLIENTE</option>
+              </select>
+              <label for="pago-ok">Pago ok</label>
+              <input type="checkbox" name="pago-ok" id="pago-ok" />
+            </div>
           </li>
         </ul>
         <button id="create-div">Add order and Print</button>
-
-        <table id="table">
-          <th>Fecha Pedido</th>
-          <th>Fecha de entrega</th>
-          <th>Estado de pedido</th>
-          <th>Cliente</th>
-          <th>Monto</th>
-          <th>Cuenta Corriente</th>
-          <th>Forma de pago</th>
-          <th>Status Pago</th>
-          <th>Tipo</th>
-          <th>Entrega</th>
-          <th>Acciones</th>
-        </table>
       </div>
+
+      <table id="table">
+        <th>Fecha Pedido</th>
+        <th>Fecha de entrega</th>
+        <th>Estado de pedido</th>
+        <th>Cliente</th>
+        <th>Monto</th>
+        <th>Cuenta Corriente</th>
+        <th>Forma de pago</th>
+        <th>Status Pago</th>
+        <th>Tipo</th>
+        <th>Entrega</th>
+        <th>Acciones</th>
+      </table>
     </div>
   </body>
   <script>
@@ -132,6 +140,8 @@
     const checkbox1 = document.getElementById("checkbox1");
     const checkbox2 = document.getElementById("checkbox2");
 
+    const pagoOk = document.getElementById("pago-ok");
+
     function textToArray(textareaId) {
       const textarea = document.getElementById(`${textareaId}`);
       const content = textarea.value;
@@ -162,9 +172,9 @@
       const carneArray = textToArray("carniceria");
       const almacArray = textToArray("almacen");
       const fecha = document.getElementById("fecha");
-      const direccion = document.getElementById("direccion");
+      const domicilio = document.getElementById("direccion");
 
-      let checkedAnswer = "";
+      const entrega = "";
       function direccionChecker(option3) {
         if (checkbox1.checked) {
           answer = checkbox1.value;
@@ -195,19 +205,20 @@
         fechaPedido: formattedToday,
         fechaEntrega: ddMmYyyyFormatter(fecha),
         horaEntrega: timepicker.value,
-        direccion: direccionChecker(direccion),
+        direccion: direccionChecker(domicilio),
         fiambreria: fiambreArray,
         almacen: almacArray,
         verduleria: verduArray,
         carniceria: carneArray,
         ctaCte:
-          formaDePago == "TRANSFERENCIA" || formaDePago == "EFECTIVO"
-            ? "DELIVERY"
-            : "CTA CTE CLIENTE",
+          formaDePago == "CTA CTE CLIENTE" ? "CTA CTE CLIENTE" : "DELIVERY",
         formaDePago: formaDePago,
-        statusPago: "OK",
+        statusPago: pagoOk.checked ? "OK" : "PENDIENTE",
         tipo: "FRESCOS",
-        entrega: "CADETE",
+        entrega:
+          checkbox1.checked == false && checkbox2.checked == false
+            ? "CADETE"
+            : "RETIRO",
         estadoPedido: "ABIERTO",
       };
       ordersList.push(newOrder);
@@ -242,7 +253,7 @@
       orderId += 1;
       cliente.value = "";
       telefono.value = "";
-      direccion.value = "";
+      domicilio.value = "";
       document.getElementById("fiambreria").value = "";
       document.getElementById("almacen").value = "";
       document.getElementById("verduleria").value = "";

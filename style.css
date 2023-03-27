@@ -1,3 +1,6 @@
+#textContainer {
+  font-family: sans-serif;
+}
 .item {
   display: flex;
   width: 460px;
@@ -7,18 +10,18 @@
   align-items: space-between;
 }
 
-#datetime-div{
+#datetime-div {
   display: flex;
   width: 303px;
   justify-content: space-between;
 }
 
-#fecha{
+#fecha {
   width: 48%;
   margin: 0;
 }
 
-#timepicker{
+#timepicker {
   width: 48%;
   margin: 0;
 }
@@ -53,7 +56,7 @@
   border: 1px solid #000;
   margin: 0 !important;
 }
-#direccion{
+#direccion {
   width: 50%;
   margin: 0;
 }
@@ -66,6 +69,25 @@
 .item textarea {
   width: 300px;
   margin: 0 0 0 10px;
+}
+
+#forma-de-pago-div {
+  display: flex;
+  max-height: 40px;
+  width: 303px;
+  justify-content: space-evenly;
+}
+#forma-de-pago {
+  margin: auto;
+}
+#forma-de-pago-div label {
+  width: 20%;
+  margin: 0px 0px 0 auto;
+}
+#pago-ok {
+  height: 100%;
+  width: 25px;
+  margin: 0;
 }
 
 .order {
