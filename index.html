@@ -26,9 +26,36 @@
             <p>FECHA:</p>
             <input type="date" id="fecha" />
           </li>
-          <li class="item">
+          <li class="item direccion-item">
             <p>DIRECCION:</p>
-            <input type="textbox" id="direccion" />
+            <div id="direccion-div">
+              <div class="label-div">
+                <label for="checkbox1" class="label">Retira por Recta</label>
+                <label for="checkbox2" class="label"
+                  >Retira por Intercountry</label
+                >
+              </div>
+              <div class="checkbox-div">
+                <input
+                  type="checkbox"
+                  id="checkbox1"
+                  name="direccion"
+                  value="RETIRA POR RECTA"
+                  class="checkbox"
+                  onclick="uncheck(checkbox2)"
+                  
+                />
+                <input
+                  type="checkbox"
+                  id="checkbox2"
+                  name="direccion"
+                  value="RETIRA POR INTERCOUNTRY"
+                  class="checkbox"
+                  onclick="uncheck(checkbox1)"
+                />
+              </div>
+            </div>
+            <textarea type="textbox" id="direccion"></textarea>
           </li>
           <li class="item">
             <p>Fiambreria:</p>
@@ -82,6 +109,9 @@
 
     const formattedToday = `${dd}/${mm}/${yyyy}`;
 
+    const checkbox1 = document.getElementById("checkbox1");
+    const checkbox2 = document.getElementById("checkbox2");
+
     function textToArray(textareaId) {
       const textarea = document.getElementById(`${textareaId}`);
       const content = textarea.value;
@@ -102,24 +132,38 @@
       targetParent.appendChild(ul);
     }
 
+    function uncheck(theOther) {
+      theOther.checked = false;
+    }
+
     function createDiv() {
       const fiambreArray = textToArray("fiambreria");
       const verduArray = textToArray("verduleria");
       const carneArray = textToArray("carniceria");
       const almacArray = textToArray("almacen");
       const fecha = document.getElementById("fecha");
+      const direccion = document.getElementById("direccion");
+
+      let checkedAnswer = "";
+      function direccionChecker(option3) {
+        if (checkbox1.checked) {
+          answer = checkbox1.value;
+        } else if (checkbox2.checked) {
+          answer = checkbox2.value;
+        } else {
+          answer = option3.value;
+        }
+        return answer;
+      }
       const ddMmYyyyFormatter = (dateToRearray) => {
         const array = dateToRearray.value.split("-");
         const formatedDate = `${array[2]}/${array[1]}/${array[0]}`;
         return formatedDate;
       };
-      
 
       const nro = document.getElementById("nro");
-      console.log(typeof(nro.value));
       const cliente = document.getElementById("cliente");
       const telefono = document.getElementById("telefono");
-      const direccion = document.getElementById("direccion");
       const formaDePago = document
         .getElementById("forma-de-pago")
         .value.toUpperCase();
@@ -130,7 +174,7 @@
         telefono: telefono.value,
         fechaPedido: formattedToday,
         fechaEntrega: ddMmYyyyFormatter(fecha),
-        direccion: direccion.value,
+        direccion: direccionChecker(direccion),
         fiambreria: fiambreArray,
         almacen: almacArray,
         verduleria: verduArray,
@@ -178,13 +222,13 @@
       cliente.value = "";
       telefono.value = "";
       direccion.value = "";
-      document.getElementById('fiambreria').value = '';
-      document.getElementById('almacen').value = '';
-      document.getElementById('verduleria').value = '';
-      document.getElementById('carniceria').value = '';
-      if(typeof(nro.value) == 'string'){
+      document.getElementById("fiambreria").value = "";
+      document.getElementById("almacen").value = "";
+      document.getElementById("verduleria").value = "";
+      document.getElementById("carniceria").value = "";
+      if (typeof nro.value == "string") {
         updatedValue = parseInt(nro.value, 10);
-        updatedValue +=1;
+        updatedValue += 1;
         updatedValue.toString();
         nro.value = updatedValue;
       }
