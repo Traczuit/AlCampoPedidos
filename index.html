@@ -214,7 +214,7 @@
           formaDePago == "CTA CTE CLIENTE" ? "CTA CTE CLIENTE" : "DELIVERY",
         formaDePago: formaDePago,
         statusPago: pagoOk.checked ? "OK" : "PENDIENTE",
-        tipo: fiambreria.some(fiambre => fiambre.toLowerCase.includes('picada')) ? "PICADAS" : "FRESCOS",
+        tipo: fiambreArray.some(fiambre => fiambre.toLowerCase.includes('picada')) ? "PICADAS" : "FRESCOS",
         entrega:
           checkbox1.checked == false && checkbox2.checked == false
             ? "CADETE"
