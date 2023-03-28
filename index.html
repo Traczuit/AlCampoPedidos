@@ -190,6 +190,10 @@
         const formatedDate = `${array[2]}/${array[1]}/${array[0]}`;
         return formatedDate;
       };
+      
+      const picadaDetector = () => {
+        fiambreArray.some(fiambre => fiambre.toLowerCase.includes('picada')) ? "PICADAS" : "FRESCOS";
+      };
 
       const nro = document.getElementById("nro");
       const cliente = document.getElementById("cliente");
@@ -214,7 +218,7 @@
           formaDePago == "CTA CTE CLIENTE" ? "CTA CTE CLIENTE" : "DELIVERY",
         formaDePago: formaDePago,
         statusPago: pagoOk.checked ? "OK" : "PENDIENTE",
-        tipo: fiambreArray.some(fiambre => fiambre.toLowerCase.includes('picada')) ? "PICADAS" : "FRESCOS",
+        tipo: picadaDetector(),
         entrega:
           checkbox1.checked == false && checkbox2.checked == false
             ? "CADETE"
