@@ -121,7 +121,7 @@
 
     var timepicker = document.getElementById("timepicker");
     updateTimepicker(); // Update the time picker immediately
-    setInterval(updateTimepicker, 30000); // Check the time every minute
+    setInterval(updateTimepicker, 60000); // Check the time every minute
 
     function updateTimepicker() {
       var now = new Date();
@@ -265,6 +265,7 @@
       document.getElementById("carniceria").value = "";
       checkbox1.checked = false;
       checkbox2.checked = false;
+      pagoOk.checked = false;
       if (typeof nro.value == "string") {
         updatedValue = parseInt(nro.value, 10);
         updatedValue += 1;
