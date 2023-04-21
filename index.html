@@ -94,6 +94,8 @@
           </li>
         </ul>
         <button id="create-div">Add order and Print</button>
+        <button id="export-button">Export</button>
+        <button id="import-button">Import</button>
       </div>
 
       <table id="table">
@@ -171,14 +173,26 @@
       theOther.checked = false;
     }
 
-    function createDiv() {
+    const fecha = document.getElementById("fecha");
+    const domicilio = document.getElementById("direccion");
+    const nro = document.getElementById("nro");
+    const cliente = document.getElementById("cliente");
+    const telefono = document.getElementById("telefono");
+    const formaDePago = document
+      .getElementById("forma-de-pago")
+      .value.toUpperCase();
+
+    const ddMmYyyyFormatter = (dateToRearray) => {
+      const array = dateToRearray.value.split("-");
+      const formatedDate = `${array[2]}/${array[1]}/${array[0]}`;
+      return formatedDate;
+    };
+
+    function orderBuilder() {
       const fiambreArray = textToArray("fiambreria");
       const verduArray = textToArray("verduleria");
       const carneArray = textToArray("carniceria");
       const almacArray = textToArray("almacen");
-      const fecha = document.getElementById("fecha");
-      const domicilio = document.getElementById("direccion");
-
       const entrega = "";
       function direccionChecker(option3) {
         if (checkbox1.checked) {
@@ -190,23 +204,16 @@
         }
         return answer;
       }
-      const ddMmYyyyFormatter = (dateToRearray) => {
-        const array = dateToRearray.value.split("-");
-        const formatedDate = `${array[2]}/${array[1]}/${array[0]}`;
-        return formatedDate;
-      };
-      
+
       const picadaDetector = () => {
-        const tipo = fiambreArray.some(fiambre => fiambre.toLowerCase().includes('picada')) ? "PICADAS" : "FRESCOS";
+        const tipo = fiambreArray.some((fiambre) =>
+          fiambre.toLowerCase().includes("picada")
+        )
+          ? "PICADAS"
+          : "FRESCOS";
         return tipo;
       };
 
-      const nro = document.getElementById("nro");
-      const cliente = document.getElementById("cliente");
-      const telefono = document.getElementById("telefono");
-      const formaDePago = document
-        .getElementById("forma-de-pago")
-        .value.toUpperCase();
       var newOrder = {
         id: orderId,
         nro: nro.value,
@@ -231,6 +238,11 @@
             : "RETIRO",
         estadoPedido: "ABIERTO",
       };
+      return newOrder;
+    }
+
+    function createDiv(orderOrigin) {
+      const newOrder = orderOrigin;
       ordersList.push(newOrder);
       const newOrderArr = [
         newOrder.fechaPedido,
@@ -280,8 +292,53 @@
       printThis(newOrder);
     }
 
+    function orderExporter() {
+      const order = orderBuilder();
+      orderId += 1;
+      cliente.value = "";
+      telefono.value = "";
+      domicilio.value = "";
+      document.getElementById("fiambreria").value = "";
+      document.getElementById("almacen").value = "";
+      document.getElementById("verduleria").value = "";
+      document.getElementById("carniceria").value = "";
+      checkbox1.checked = false;
+      checkbox2.checked = false;
+      pagoOk.checked = false;
+      return Object.assign({}, order);
+    }
+
     const createDivBtn = document.getElementById("create-div");
-    createDivBtn.addEventListener("click", createDiv);
+    createDivBtn.addEventListener("click", () => {
+      createDiv(orderBuilder());
+    });
+
+    const exportBtn = document.getElementById("export-button");
+    exportBtn.addEventListener("click", () => {
+      // Call the function to get the order object
+      const order = orderExporter();
+
+      // Copy the object to the clipboard as a JSON string
+      navigator.clipboard.writeText(JSON.stringify(order));
+    });
+
+    const importBtn = document.getElementById("import-button");
+
+    importBtn.addEventListener("click", async () => {
+      try {
+        // Read the text from the clipboard
+        const text = await navigator.clipboard.readText();
+
+        // Parse the text as JSON and assign it to a variable
+        const pastedObject = JSON.parse(text);
+
+        // Do something with the pasted object variable
+        console.log(pastedObject);
+        createDiv(pastedObject);
+      } catch (err) {
+        console.error("Failed to paste object: ", err);
+      }
+    });
 
     function getObjectById(objectsArray, id) {
       for (let i = 0; i < objectsArray.length; i++) {
