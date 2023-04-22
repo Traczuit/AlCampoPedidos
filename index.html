@@ -173,22 +173,23 @@
       theOther.checked = false;
     }
 
-    const fecha = document.getElementById("fecha");
-    const domicilio = document.getElementById("direccion");
-    const nro = document.getElementById("nro");
-    const cliente = document.getElementById("cliente");
-    const telefono = document.getElementById("telefono");
-    const formaDePago = document
-      .getElementById("forma-de-pago")
-      .value.toUpperCase();
-
+    
     const ddMmYyyyFormatter = (dateToRearray) => {
       const array = dateToRearray.value.split("-");
       const formatedDate = `${array[2]}/${array[1]}/${array[0]}`;
       return formatedDate;
     };
+    
+    const domicilio = document.getElementById("direccion");
 
     function orderBuilder() {
+      const fecha = document.getElementById("fecha");
+      const nro = document.getElementById("nro");
+      const cliente = document.getElementById("cliente");
+      const telefono = document.getElementById("telefono");
+      const formaDePago = document
+        .getElementById("forma-de-pago")
+        .value.toUpperCase();
       const fiambreArray = textToArray("fiambreria");
       const verduArray = textToArray("verduleria");
       const carneArray = textToArray("carniceria");
@@ -360,7 +361,7 @@
       var a = window.open("", "", "height=900, width=800");
       a.document.write("<html>");
       a.document.write(
-        `<body > <p>PEDIDO<br><br>NRO: ${thingy.nro}<br>CLIENTE: ${thingy.cliente}<br>TELEFONO: ${thingy.telefono}<br>FECHA: ${thingy.fechaEntrega}  <br>DIRECCION: ${thingy.direccion}   <strong>${thingy.horaEntrega}</strong><br> <br>Fiambreria:<br><div id='listaFiambreria'></div><br>Almacen:<br><div id='listaAlmacen'></div><br>Verduleria:<br><div id='listaVerduleria'></div><br>Carniceria:<br><div id='listaCarniceria'></div><br>FORMA DE PAGO: ${thingy.formaDePago}</p>`
+        `<body > <p>PEDIDO<br><br>NRO: ${thingy.nro}<br>CLIENTE: ${thingy.cliente}<br>TELEFONO: ${thingy.telefono}<br>FECHA: ${thingy.fechaEntrega}  <br>DIRECCION: ${thingy.direccion}   <strong>${thingy.horaEntrega}</strong><br> <br>Fiambreria:<br><div id='listaFiambreria'></div><br>Almacen:<br><div id='listaAlmacen'></div><br>Verduleria:<br><div id='listaVerduleria'></div><br>Carniceria:<br><div id='listaCarniceria'></div><br>FORMA DE PAGO: ${thingy.formaDePago},  ${thingy.statusPago}</p>`
       );
       a.document.write("</body></html>");
       a.document.close();
